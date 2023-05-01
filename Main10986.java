@@ -5,22 +5,11 @@ import java.util.StringTokenizer;
 
 public class Main10986 {
 
-    static int N,M;
-    static long[] sum;
-    static long[] C;
-    static long answer;
+    public static long[] s;
+    public static long[] c;
+    public static int N,M;
 
-    public static long combination(long n, long p){
-        long N=1;
-        long P =1;
-        for(long i=p; 0<i; i--){
-            P*=i;
-        }
-        for(long i=n; p<=i; i--){
-            N*=i;
-        }
-        return (N/P);
-    }
+   //콤비네이션 함수 만들 때 자칫하면 long 범위를 초과하면 큰일이니, 신중하게 잘 만들어야 한다.
 
     public static void main(String[] args) throws IOException {
         InputStreamReader is = new InputStreamReader(System.in);
@@ -28,29 +17,26 @@ public class Main10986 {
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-
-        sum = new long[N];
-        C = new long[M];
+        s = new long[N+1];
+        //sum을 담습니다.
+        c = new long[M];
+        //sum%3 결과의 개수를 담습니다.
         st = new StringTokenizer(br.readLine(), " ");
-
-        sum[0] = Integer.parseInt(st.nextToken());
-        for(int i=1; i<N; i++){
-            sum[i] = sum[i-1]+Integer.parseInt(st.nextToken());
+        for(int i=1; i<=N; i++){
+            s[i] = s[i-1]+ Long.parseLong( st.nextToken());
         }
-
-        for(int i=0; i<N; i++){
-            long remainder = (sum[i] %M);
-            if(remainder == 0){
-                answer++;
-            }
-            C[(int)remainder]++;
+        for(int i=0; i<=N; i++){
+            c[(int)(s[i]%M)]++;
         }
-
+        long answer=0;
         for(int i=0; i<M; i++){
-            if(C[i]>1){
-               answer = answer+combination(C[i],2);
+            if(1<c[i]){
+                //answer+=combination(c[i],2);
+                answer+=c[i]*(c[i]-1)/2;
+
             }
         }
+
         System.out.println(answer);
     }
 }
