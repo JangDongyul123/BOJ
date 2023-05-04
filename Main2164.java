@@ -15,22 +15,13 @@ public class Main2164 {
         for(int i=1; i<=N; i++){
             q.offer(i);
         }
-        while(!q.isEmpty()){
+        while(q.size()>1){
             q.poll();
-            if(!q.isEmpty()){
-                int n = q.peek();
-                q.poll();
-                q.offer(n);
-            }
+            int n = q.poll();
+            q.offer(n);
 
-            if(q.size()==1){
-                bw.write(q.peek()+"");
-                bw.flush();
-                bw.close();
-                return;
-            }
         }
-        bw.write(1+"");
+        bw.write(q.peek()+"");
         bw.flush();
         bw.close();
     }
