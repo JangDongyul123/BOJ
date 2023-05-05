@@ -1,5 +1,5 @@
 //Arrays.sort() 사용하면 되지만 버블정렬로 풀어봄
-
+//버블정렬 빅오 n^2이라서, Arrays.sort()가 더 좋음 평균 빅오 nlogn 최악 빅오 n^2
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
