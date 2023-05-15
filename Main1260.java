@@ -1,77 +1,69 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main1260 {
     static int N,M,V;
     static List<List<Integer>> graph;
-    static boolean [] visit;
+    static boolean[] visit;
 
-    public static void dfs(int start){
-        System.out.print(start+" ");
-        for(int i=0 ; i<graph.get(start).size(); i++){
-            int node = graph.get(start).get(i);
-            if(!visit[node]){
-                visit[node]=true;
-                dfs(node);
+    public static void dfs(int node) {
+        visit[node] = true;
+        System.out.print(node+" ");
+        for(int i=0; i<graph.get(node).size(); i++) {
+            int node2 = graph.get(node).get(i);
+            if(!visit[node2]) {
+                dfs(node2);
             }
         }
     }
 
-    public static void bfs(int start){
+    public static void bfs(int node) {
         Queue<Integer> q = new LinkedList<>();
-        q.offer(start);
-        while(!q.isEmpty()){
-            int x = q.peek();
+        q.offer(node);
+        visit[node] = true;
+        System.out.print(node+" ");
+        while(!q.isEmpty()) {
+            int peekNode = q.peek();
             q.poll();
-            System.out.print(x+" ");
-            for(int i=0; i<graph.get(x).size();i++){
-                int node = graph.get(x).get(i);
-                if(!visit[node]){
-                    visit[node] = true;
-                    q.offer(node);
+            for(int i=0; i<graph.get(peekNode).size(); i++) {
+                int node2 = graph.get(peekNode).get(i);
+                if(!visit[node2]) {
+                    q.offer(node2);
+                    visit[node2]=true;
+                    System.out.print(node2+" ");
                 }
             }
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         InputStreamReader is = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(is);
         StringTokenizer st = new StringTokenizer(br.readLine()," ");
-        N= Integer.parseInt(st.nextToken());
-        M= Integer.parseInt(st.nextToken());
-        V= Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        V = Integer.parseInt(st.nextToken());
         graph = new ArrayList<>();
-        for(int n=0; n<=N; n++){
-            graph.add(new ArrayList<>());
+        for(int i=0; i<=N; i++) {
+            graph.add(new ArrayList<Integer>());
         }
         visit = new boolean[N+1];
-        for(int m=0; m<M; m++){
-            int u,v;
+        for(int i=0; i<M; i++) {
             st = new StringTokenizer(br.readLine()," ");
-            u= Integer.parseInt(st.nextToken());
-            v= Integer.parseInt(st.nextToken());
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
             graph.get(u).add(v);
             graph.get(v).add(u);
         }
-        for(int n=0; n<=N; n++){
-            graph.get(n).sort(Comparator.naturalOrder());
+        for(int i=0; i<=N; i++) {
+            graph.get(i).sort(Comparator.naturalOrder());
         }
-  /*      for(int y=1; y<=N; y++){
-            System.out.print(y+" ");
-            for(int x=0; x< graph.get(y).size(); x++){
-                System.out.print(graph.get(y).get(x)+" ");
-            }
-            System.out.println();
-        }*/
 
-        visit[V]=true;
+
         dfs(V);
         System.out.println();
         visit = new boolean[N+1];
-        visit[V]=true;
         bfs(V);
     }
 }
