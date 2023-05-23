@@ -5,62 +5,43 @@ import java.util.Comparator;
 import java.util.StringTokenizer;
 
 public class Main1931 {
-    static int N;
 
+    static int N;
+    static Meeting[] meetings;
     static class Meeting{
-        boolean visit;
         int start;
         int end;
-        Meeting(boolean visit, int start, int end){
-            this.visit = visit;
+        Meeting(int start, int end){
             this.start = start;
             this.end = end;
         }
-
         public int getStart(){
             return start;
         }
         public int getEnd(){
             return end;
         }
-        public boolean getVisit(){
-            return visit;
-        }
-    }
-    static Meeting[] meetingArray;
-    static int[] maxList;
-
-
-    public static void dfs(int index, Meeting m, int cnt){
-        m.visit = true;
-        for(int i=index+1; i<meetingArray.length; i++){
-            if(meetingArray[i].visit == false){
-
-
-            }
-        }
     }
 
     public static void main(String[] args) throws Exception{
         InputStreamReader is = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(is);
-        N =Integer.parseInt(br.readLine());
-        meetingArray = new Meeting[N];
-
+        StringTokenizer st;
+        N = Integer.parseInt(br.readLine());
+        meetings = new Meeting[N];
         for(int i=0; i<N; i++){
-            StringTokenizer st = new StringTokenizer(br.readLine()," ");
-            meetingArray[i] = new Meeting(false, Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
+            st = new StringTokenizer(br.readLine()," ");
+            meetings[i] = new Meeting(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
         }
-
-        Arrays.sort(meetingArray,Comparator.comparing(Meeting::getStart).thenComparing(Meeting::getEnd));
-
-        for(Meeting m : meetingArray){
-            System.out.println(m.getStart()+" "+m.getEnd());
+        Arrays.sort(meetings,Comparator.comparing(Meeting::getEnd).thenComparing(Meeting::getStart));
+        int end = -1;
+        int count = 0;
+        for(int i=0; i< meetings.length; i++){
+            if(end<= meetings[i].getStart()){
+                end = meetings[i].getEnd();
+                count++;
+            }
         }
-        for(int i=0; i<meetingArray.length; i++){
-           dfs(i, meetingArray[i],1);
-        }
-
-
+        System.out.println(count);
     }
 }
