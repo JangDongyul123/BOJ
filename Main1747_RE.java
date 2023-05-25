@@ -4,42 +4,54 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main1747_RE {
+
+    static String N;
+
     public static void main(String[] args) throws IOException {
         InputStreamReader is = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(is);
-        StringTokenizer st = new StringTokenizer(br.readLine()," ");
-        int N = Integer.parseInt(st.nextToken());
-        int[] arr = new int[1200001];
+        int intN = Integer.parseInt(br.readLine());
+        N = Integer.toString(intN);
+        //숫자를 문자열로 받고
+        int start = 0;
+        //문자열의 1번째 인덱스 받고
+        int end = N.length()-1;
+        //마지막 인덱스 받고
+
+        int result = 0;
+
+        int[] arr = new int[1300005];
+
         for(int i=2; i<arr.length; i++){
-            arr[i]=i;
+            arr[i] = i;
         }
-        for(int i=2; i< arr.length; i++){
+
+        for(int i=2; i<=10001; i++){
             if(arr[i]==0) continue;
-            for(int j=i+i; j< arr.length; j=i+j){
-                arr[j]=0;
+            for(int j=i+i; j<arr.length; j=j+i){
+                arr[j] = 0;
             }
         }
-        int result = 0;
-        for(int i=N; i< arr.length; i++){
-            //i=N+1 로 잡으면 71퍼에서 틀린다. 크거나 같은 건데, 큰 걸로 범위를 잡아서 틀린 것
-            if(arr[i]!=0){
-               String str = Integer.toString(arr[i]);
-               int p1=0;
-               int p2=str.length()-1;
-               int flag=0;
-                   while(p1<p2)
-                   {
-                       if(str.charAt(p1)!=str.charAt(p2)){
-                           flag=1;
-                           break;
-                       }
-                       p1++;
-                       p2--;
-                   }
-                   if(flag==0){
-                       result =arr[i];
-                       break;
-                   }
+
+        for(int i=intN; i<arr.length; i++){
+            if(arr[i]==0) continue;
+            N = Integer.toString(i);
+            start = 0;
+            //문자열의 1번째 인덱스 받고
+            end = N.length()-1;
+            //마지막 인덱스 받고
+            int flag=0;
+            while(start<end){
+                if(N.charAt(start)!=N.charAt(end)){
+                    flag=1;
+                    break;
+                }
+                start++;
+                end--;
+            }
+            if(flag==0){
+                result = i;
+                break;
             }
         }
         System.out.println(result);
