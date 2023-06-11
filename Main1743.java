@@ -7,21 +7,23 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main1743 {
+
+    static int N,M,K;
     static char[][] map;
     static boolean[][] visit;
-    static int[] dx={1,0,-1,0};
-    static int[] dy={0,1,0,-1};
-    static int cnt,N,M,K;
-    static List<Integer> cntList = new ArrayList<>();
+    static int[] dx = {1,0,-1,0};
+    static int[] dy = {0,1,0,-1};
+    static List<Integer> cntList;
+    static int cnt;
 
-    static void dfs(int y, int x){
+    public static void dfs(int y, int x){
+        visit[y][x] = true;
         cnt++;
-        visit[y][x]=true;
         for(int i=0; i<4; i++){
-            int ny = y+dy[i];
             int nx = x+dx[i];
-            if(0<=ny && ny<N && 0<=nx && nx<M){
-                if(!visit[ny][nx] && map[ny][nx]=='#'){
+            int ny = y+dy[i];
+            if(0<= nx && 0<=ny && nx<M && ny<N){
+                if((!visit[ny][nx]) && (map[ny][nx] =='#')){
                     dfs(ny,nx);
                 }
             }
@@ -31,31 +33,35 @@ public class Main1743 {
     public static void main(String[] args) throws IOException {
         InputStreamReader is = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(is);
-        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
         map = new char[N][M];
+        visit = new boolean[N][M];
+        cntList = new ArrayList<>();
+
         for(int y=0; y<N; y++){
             for(int x=0; x<M; x++){
                 map[y][x] = '.';
             }
         }
-        visit = new boolean[N][M];
-        for(int k=0; k<K; k++){
+
+        for(int i=0; i<K; i++){
             st = new StringTokenizer(br.readLine()," ");
-            int y = Integer.parseInt(st.nextToken());
-            int x = Integer.parseInt(st.nextToken());
-            map[y-1][x-1]='#';
+            int r = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
+            map[r-1][c-1] = '#';
         }
+
         for(int y=0; y<N; y++){
             for(int x=0; x<M; x++){
-                if(!visit[y][x] && map[y][x] =='#'){
+                if((map[y][x] == '#') &&(!visit[y][x])){
                     cnt=0;
                     dfs(y,x);
                     cntList.add(cnt);
                 }
-
             }
         }
         cntList.sort(Comparator.reverseOrder());
