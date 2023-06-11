@@ -6,26 +6,26 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main2178 {
-    static int M,N;
-    static int [][]map;
-    static boolean [][]visit;
+
+    static int N,M;
     static int[] dx = {1,0,-1,0};
     static int[] dy = {0,1,0,-1};
+    static int[][] map,dist;
+    static boolean[][] visit;
 
     public static void bfs(int y, int x){
         Queue<int[]> q = new LinkedList<>();
         q.offer(new int[]{y,x});
         while (!q.isEmpty()){
-            int qy = q.peek()[0];
-            int qx = q.peek()[1];
+            int peekY = q.peek()[0];
+            int peekX = q.peek()[1];
             q.poll();
             for(int i=0; i<4; i++){
-                int ny = qy+dy[i];
-                int nx = qx+dx[i];
-                if(0<=nx && nx< M && 0<=ny && ny< N){
-                    if(0<map[ny][nx] && !visit[ny][nx]){
-                        visit[ny][nx]=true;
-                        map[ny][nx] = map[qy][qx]+1;
+                int ny = peekY+dy[i];
+                int nx = peekX+dx[i];
+                if(0<=ny && 0<= nx && ny<N && nx<M){
+                    if( (map[ny][nx]==1) && (dist[ny][nx]==0)){
+                        dist[ny][nx] = dist[peekY][peekX]+1;
                         q.offer(new int[]{ny,nx});
                     }
                 }
@@ -33,30 +33,27 @@ public class Main2178 {
         }
     }
 
-
     public static void main(String[] args) throws IOException {
         InputStreamReader is = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(is);
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
+
         map = new int[N][M];
+        dist = new int[N][M];
         visit = new boolean[N][M];
+
         for(int y=0; y<N; y++){
             String str = br.readLine();
             for(int x=0; x<M; x++){
                 map[y][x] = Character.getNumericValue(str.charAt(x));
             }
         }
+        dist[0][0] =1;
+        bfs(0,0);
 
-        for(int y=0; y<N; y++){
-            for(int x=0; x<M; x++){
-                if(!visit[y][x] && map[y][x]==1){
-                    visit[y][x]=true;
-                    bfs(y,x);
-                }
-            }
-        }
-        System.out.println(map[N-1][M-1]);
+        System.out.println(dist[N-1][M-1]);
     }
 }
