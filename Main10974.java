@@ -3,38 +3,39 @@
 import java.io.*;
 
 public class Main10974 {
-    public static int N;
-    public static int arr[];
-    public static boolean visited[];
-    public static StringBuilder sb = new StringBuilder();
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static int N;
+    static int arr[];
+    static boolean visit[];
+    static StringBuilder sb = new StringBuilder();
+    public static void main(String[] args) throws Exception{
+        InputStreamReader is = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(is);
         N = Integer.parseInt(br.readLine());
         arr = new int[N+1];
-        visited = new boolean[N+1];
-
+        visit = new boolean[N+1];
         dfsPermutation(1);
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
-
-    public static void dfsPermutation(int depth) {
-        if(depth == N+1) {
-            for(int i=1; i<=N; i++)
-                sb.append(arr[i] + " ");
-
+    public static void dfsPermutation(int depth){
+        if(depth == N+1){
+            for(int i=1; i<=N; i++){
+                sb.append(arr[i]+" ");
+            }
             sb.append("\n");
             return;
         }
-
-        for(int i=1; i<=N; i++) {
-            if(visited[i])//방문했으면 컨티뉴
-                continue;
-            //방문 안했으면
-            arr[depth] = i;
-            visited[i] = true;
-            dfsPermutation(depth + 1);
-            visited[i] = false;
+        for(int i=1; i<=N; i++){
+            if(!visit[i]){
+                arr[depth] = i;
+                //depth자리에 i숫자
+                visit[i] = true;
+                //i숫자 사용 완료
+                dfsPermutation(depth+1);
+                //arr[depth] = 0;
+                //depth 자리 다시 비게 세팅
+                visit[i] = false;
+                //i숫자 다시 반납 완료
+            }
         }
     }
 }
